@@ -6,6 +6,7 @@ using AspNetCoreTodo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +28,11 @@ namespace AspNetCoreTodo
             services.AddControllersWithViews();
             services.AddMvc();
             services.AddScoped<ITodoItemService, FakeTodoItemService>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            
+            //AddDbContext servisini çalýþtýrýrken sorun alýyordum. Þu linkten çözdüm:
+            //https://stackoverflow.com/questions/52036748/error-in-asp-net-core-adddbcontent 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
